@@ -11,6 +11,7 @@ services:
           aliases:
             - splash-api-server      
     # scraper_airbnb: https://github.com/fortiz303/scraper_airbnb
+
     scraper_airbnb-berlin:
       depends_on: 
         - splash-server
@@ -21,19 +22,113 @@ services:
       environment:
         - scraper_airbnb_city=berlin
         - scraper_airbnb_lb=20
-        - scraper_airbnb_ub=80
-        - scraper_airbnb_checkin=2022-06-27
-        - scraper_airbnb_checkout=2022-06-28
+        - scraper_airbnb_ub=100
+        - scraper_airbnb_checkin=2022-07-08
+        - scraper_airbnb_checkout=2022-07-10
         - scraper_airbnb_newonly=N
-        - scraper_airbnb_telegram_token=5332522972:AAGd6VRIenoTkUlrdC3Ek6GGiLZ-RBfT32U
-        - scraper_airbnb_chat_id=5439194643
+        - scraper_airbnb_telegram_token=5497409562:AAHZuFP5JLW-6gAUmzy02zQ87jrepEfJ-5o
+        - scraper_airbnb_chat_id=481938815
       volumes:
         - "scraper_airbnb_data:/app/data" # Docker named volume
-        #- "C:/Users/kerem/Desktop/Upwork/Francisco Ortiz/scraper_airbnb/data:/app/data" # Windows style mount volume
-#        - "./tracker:/app/tracker" # Linux style mount volume
+#       - "C:/Users/kerem/Desktop/Upwork/Francisco Ortiz/scraper_airbnb/data:/app/data" # Windows style mount volume
+#       - "./tracker:/app/tracker" # Linux style mount volume
       networks:
         - splash-net
-    scraper_airbnb-tokyo:
+
+#    scraper_airbnb-denver:
+#      depends_on:
+#        - splash-server
+#      image: scraper_airbnb:latest
+#      build:
+#        context: .
+#        dockerfile: Dockerfile
+#      environment:
+#        - scraper_airbnb_city=denver
+#        - scraper_airbnb_lb=20
+#        - scraper_airbnb_ub=140
+#        - scraper_airbnb_checkin=2022-07-01
+#        - scraper_airbnb_checkout=2022-07-03
+#        - scraper_airbnb_newonly=N
+#        - scraper_airbnb_telegram_token=5497409562:AAHZuFP5JLW-6gAUmzy02zQ87jrepEfJ-5o
+#        - scraper_airbnb_chat_id=481938815
+#      volumes:
+#        - "scraper_airbnb_data:/app/data" # Docker named volume
+#       - "C:/Users/kerem/Desktop/Upwork/Francisco Ortiz/scraper_airbnb/data:/app/data" # Windows style mount volume
+#        - "./tracker:/app/tracker" # Linux style mount volume
+#      networks:
+#        - splash-net
+
+#    scraper_airbnb-los_angeles:
+#      depends_on:
+#        - splash-server
+#      image: scraper_airbnb:latest
+#      build:
+#        context: .
+#        dockerfile: Dockerfile
+#      environment:
+#        - scraper_airbnb_city=los_angeles
+#        - scraper_airbnb_lb=20
+#        - scraper_airbnb_ub=100
+#        - scraper_airbnb_checkin=2022-07-01
+#        - scraper_airbnb_checkout=2022-07-03
+#        - scraper_airbnb_newonly=N
+#        - scraper_airbnb_telegram_token=5502350750:AAG4UnLxwA7N3fiQHhklYKWgCL_Uzg6L34M
+#        - scraper_airbnb_chat_id=481938815
+#      volumes:
+#        - "scraper_airbnb_data:/app/data" # Docker named volume
+#       - "C:/Users/kerem/Desktop/Upwork/Francisco Ortiz/scraper_airbnb/data:/app/data" # Windows style mount volume
+#        - "./tracker:/app/tracker" # Linux style mount volume
+#      networks:
+#        - splash-net
+
+#    scraper_airbnb-newyork:
+#      depends_on: 
+#        - splash-server
+#      image: scraper_airbnb:latest
+#      build:
+#        context: .
+#        dockerfile: Dockerfile
+#      environment:
+#        - scraper_airbnb_city=new_york
+#        - scraper_airbnb_lb=20
+#        - scraper_airbnb_ub=120
+#        - scraper_airbnb_checkin=2022-07-01
+#        - scraper_airbnb_checkout=2022-07-03
+#        - scraper_airbnb_newonly=N
+#        - scraper_airbnb_telegram_token=5421688644:AAF6g8jsai7n89HH_oBj3EoWEomZT4zaVlE
+#        - scraper_airbnb_chat_id=-654911098
+#      volumes:
+#        - "scraper_airbnb_data:/app/data" # Docker named volume
+#       - "C:/Users/kerem/Desktop/Upwork/Francisco Ortiz/scraper_airbnb/data:/app/data" # Windows style mount volume
+#        - "./tracker:/app/tracker" # Linux style mount volume
+#      networks:
+#        - splash-net
+
+#    scraper_airbnb-miami:
+#      depends_on: 
+#        - splash-server
+#      image: scraper_airbnb:latest
+#      build:
+#        context: .
+#        dockerfile: Dockerfile
+#      environment:
+#        - scraper_airbnb_city=miami
+#        - scraper_airbnb_lb=20
+#        - scraper_airbnb_ub=180
+#        - scraper_airbnb_checkin=2022-07-01
+#        - scraper_airbnb_checkout=2022-07-03
+#        - scraper_airbnb_newonly=N
+#        - scraper_airbnb_telegram_token=5369438211:AAHO0oXGIDojuixuivib7xTKRA5SAts9AIM
+#        - scraper_airbnb_chat_id=-1001679024837
+#      volumes:
+#        - "scraper_airbnb_data:/app/data" # Docker named volume
+#keep       - "C:/Users/kerem/Desktop/Upwork/Francisco Ortiz/scraper_airbnb/data:/app/data" # Windows style mount volume
+#        - "./tracker:/app/tracker" # Linux style mount volume
+#      networks:
+#        - splash-net
+
+
+    scraper_airbnb-copenhagen:
       depends_on: 
         - splash-server
       image: scraper_airbnb:latest
@@ -41,20 +136,23 @@ services:
         context: .
         dockerfile: Dockerfile
       environment:
-        - scraper_airbnb_city=tokyo
+        - scraper_airbnb_city=copenhagen
         - scraper_airbnb_lb=20
-        - scraper_airbnb_ub=80
-        - scraper_airbnb_checkin=2022-06-27
-        - scraper_airbnb_checkout=2022-06-28
+        - scraper_airbnb_ub=140
+        - scraper_airbnb_checkin=2022-07-08
+        - scraper_airbnb_checkout=2022-07-10
         - scraper_airbnb_newonly=N
-        - scraper_airbnb_telegram_token=5332522962:AAGd6VRIenoTkUlrdC3Ek6GGiLZ-RBfT32U
-        - scraper_airbnb_chat_id=5439194633
+        - scraper_airbnb_telegram_token=5542420156:AAHC9zlzRm-IcVwc-vrgKt9UC1erp67dgCs
+        - scraper_airbnb_chat_id=-625818750
       volumes:
         - "scraper_airbnb_data:/app/data" # Docker named volume
-        #- "C:/Users/kerem/Desktop/Upwork/Francisco Ortiz/scraper_airbnb/data:/app/data" # Windows style mount volume
+#       - "C:/Users/kerem/Desktop/Upwork/Francisco Ortiz/scraper_airbnb/data:/app/data" # Windows style mount volume
         - "./tracker:/app/tracker" # Linux style mount volume
       networks:
         - splash-net
+
+
+
 networks:
     splash-net:
 volumes:

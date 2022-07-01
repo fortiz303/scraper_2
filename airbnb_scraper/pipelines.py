@@ -13,15 +13,13 @@ from scrapy.exceptions import DropItem
 
 def telegram_message(item):
     """ Send Message to telegram"""
-    item_data =[f'{k}: {v}' for k, v in item.items()]
+    item_data = [f'{k}: {v}' for k, v in item.items()]
     message = "\n".join(item_data)
-    params = {
-        'chat_id': os.environ['scraper_airbnb_chat_id'],
-        'text': message
-    }
+    chat_id = os.environ["scraper_airbnb_chat_id"]
+    bot_token = os.environ["scraper_airbnb_telegram_token"]
     try:
-        API_URL = f'https://api.telegram.org/bot{os.environ["scraper_airbnb_telegram_token"]}/sendMessage'
-        response = requests.post(API_URL, params=params)
+        API_URL = f'https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text={message}'
+        response = requests.post(API_URL)
 
     except:
         pass
@@ -54,11 +52,13 @@ class AirbnbScraperPipeline(object):
 
         adapter = ItemAdapter(item)
         host_id = adapter['host_id']
+        room_type = adapter['room_type_category']
 
         if host_id in self.seen:
             raise DropItem(f'Duplicate Item found {host_id}')
         else:
             self.seen.add(host_id)
             write_seen(host_id)
-            telegram_message(item)
+            if room_type == 'entire_home':
+                telegram_message(item)
             return item
