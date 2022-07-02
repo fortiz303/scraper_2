@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
 import collections
-from optparse import check_builtin
 import re
-import numpy as np
 import logging
-import sys
 import scrapy
 from scrapy_splash import SplashRequest
 from scrapy.exceptions import CloseSpider
@@ -55,7 +52,7 @@ class AirbnbSpider(scrapy.Spider):
                'query={2}'
                '&query_understanding_enabled=true&refinement_paths%5B%5D=%2Fhomes&s_tag=QLb9RB7g'
                '&search_type=FILTER_CHANGE&selected_tab_id=home_tab&show_groupings=true&supports_for_you_v3=true'
-               '&timezone_offset=-240&version=1.5.6'
+               '&timezone_offset=-240&version=1.5.6&amenities[]=51'
                '&price_min={0}&price_max={1}&checkin={3}&checkout={4}')
         new_url = url.format(self.price_lb, self.price_ub,
                              self.city, self.checkin, self.checkout)
@@ -70,7 +67,7 @@ class AirbnbSpider(scrapy.Spider):
                    'query={1}'
                    '&query_understanding_enabled=true&refinement_paths%5B%5D=%2Fhomes&s_tag=QLb9RB7g'
                    '&search_type=FILTER_CHANGE&selected_tab_id=home_tab&show_groupings=true&supports_for_you_v3=true'
-                   '&timezone_offset=-240&version=1.5.6'
+                   '&timezone_offset=-240&version=1.5.6&amenities[]=51'
                    '&price_min={0}&checkin={3}&checkout={4}')
             new_url = url.format(self.price_lb, self.city,
                                  self.checkin, self.checkout)
@@ -109,6 +106,9 @@ class AirbnbSpider(scrapy.Spider):
             room_id = str(home.get('listing').get('id'))
             url = base_url + str(home.get('listing').get('id'))
             data_dict[room_id]['url'] = url
+
+            assert 51 in home["listing"]["amenity_ids"]
+
             try:
                 data_dict[room_id]['price'] = home.get('pricing_quote').get(
                     'price').get('price_items')[0].get('total').get('amount')
@@ -166,6 +166,7 @@ class AirbnbSpider(scrapy.Spider):
                 'pricing_quote').get('can_instant_book')
             data_dict[room_id]['monthly_price_factor'] = home.get(
                 'pricing_quote').get('monthly_price_factor')
+
             try:
                 data_dict[room_id]['currency'] = home.get('pricing_quote').get(
                     'price').get('price_items')[0].get('total').get('currency')
@@ -190,6 +191,7 @@ class AirbnbSpider(scrapy.Spider):
 
         # Iterate through dictionary of URLs in the single page to send a SplashRequest for each
         for room_id in data_dict:
+
             yield SplashRequest(url=base_url+room_id, callback=self.parse_details,
                                 meta=data_dict.get(room_id),
                                 endpoint="render.html",
@@ -213,7 +215,7 @@ class AirbnbSpider(scrapy.Spider):
                        '&query_understanding_enabled=true&refinement_paths%5B%5D=%2Fhomes&s_tag=QLb9RB7g'
                        '&satori_version=1.1.9&screen_height=797&screen_size=medium&screen_width=885'
                        '&search_type=FILTER_CHANGE&selected_tab_id=home_tab&show_groupings=true&supports_for_you_v3=true'
-                       '&timezone_offset=-240&version=1.5.6'
+                       '&timezone_offset=-240&version=1.5.6&amenities[]=51'
                        '&items_offset={0}&section_offset={1}&price_min={2}&price_max={3}')
             new_url = new_url.format(
                 items_offset, section_offset, self.price_lb, self.price_ub, self.city)
@@ -229,7 +231,7 @@ class AirbnbSpider(scrapy.Spider):
                        '&query_understanding_enabled=true&refinement_paths%5B%5D=%2Fhomes&s_tag=QLb9RB7g'
                        '&satori_version=1.1.9&screen_height=797&screen_size=medium&screen_width=885'
                        '&search_type=FILTER_CHANGE&selected_tab_id=home_tab&show_groupings=true&supports_for_you_v3=true'
-                       '&timezone_offset=-240&version=1.5.6'
+                       '&timezone_offset=-240&version=1.5.6&amenities[]=51'
                        '&items_offset={0}&section_offset={1}&price_min={2}')
                 new_url = url.format(
                     items_offset, section_offset, self.price_lb, self.city)
